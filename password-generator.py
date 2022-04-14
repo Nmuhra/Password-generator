@@ -19,9 +19,10 @@ if nums :
     all += digits
 if syms :
     all += symbols
-
-length = 24
-amount = 5
+length_1 = input("length: ")
+length = int(length_1)
+amount_1 = input("amout: ")  
+amount = int(amount_1)
 
 for x in range(amount):
     password = "".join(random.sample(all, length))

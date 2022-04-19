@@ -1,29 +1,36 @@
-import random
+from tkinter import *
+import random, string
+import pyperclip
 
-uppercase_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-lower_case = uppercase_letters.lower()
-digits = "0123456789"
-symbols = "(){}[],./\\?+=*# "
+root =Tk()
+root.geometry("400x400")
+root.resizable(0,0)
+root.title("DataFlair - PASSWORD GENERATOR")
 
-upper, lower, nums, syms = True, True, True, True
+heading = Label(root, text = 'PASSWORD GENERATOR' , font ='arial 15 bold').pack()
+Label(root, text ='DataFlair', font ='arial 15 bold').pack(side = BOTTOM)
 
-all = ""
+pass_label = Label(root, text = 'PASSWORD LENGTH', font = 'arial 10 bold').pack()
+pass_len = IntVar()
+length = Spinbox(root, from_ = 4, to_ = 32 , textvariable = pass_len , width = 15).pack()
 
-print("Here are some passwords!")
+pass_str = StringVar()
 
-if upper :
-    all += uppercase_letters
-if lower :
-    all += lower_case
-if nums :
-    all += digits
-if syms :
-    all += symbols
-length_1 = input("length: ")
-length = int(length_1)
-amount_1 = input("amout: ")  
-amount = int(amount_1)
+def Generator():
+    password = ''
+    for x in range (0,4):
+        password = random.choice(string.ascii_uppercase)+random.choice(string.ascii_lowercase)+random.choice(string.digits)+random.choice(string.punctuation)
+    for y in range(pass_len.get()- 4):
+        password = password+random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits + string.punctuation)
+    pass_str.set(password)
 
-for x in range(amount):
-    password = "".join(random.sample(all, length))
-    print(password)
+Button(root, text = "GENERATE PASSWORD" , command = Generator ).pack(pady= 5)
+
+Entry(root , textvariable = pass_str).pack()
+
+def Copy_password():
+    pyperclip.copy(pass_str.get())
+
+Button(root, text = 'COPY TO CLIPBOARD', command = Copy_password).pack(pady=5)
+
+root.mainloop()
